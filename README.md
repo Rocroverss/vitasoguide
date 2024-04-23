@@ -1,0 +1,87 @@
+# vitaports
+vitaports_basics
+
+# rocroverss apk port checker:
+
+Usage guide:
+
+1) Download apk tool: https://apktool.org/
+2) have python installed (3.12 in my case).
+3) Execute the apk_port_validator.py.
+4) Locate the apk and the apk tool.
+5) Press on extract apk.
+6) Press on check (each case can be a different scenario false positive/negative might occur).
+
+# gl33ntwine port template:
+Port template: https://github.com/v-atamanenko/soloader-boilerplate
+
+# VitaSDK
+VitaSDK: https://github.com/vitasdk
+VitaSDK precompiled: https://github.com/vitasdk/buildscripts/releases
+
+# Vitagl
+Vitagl: https://github.com/Rinnegatamante/vitaGL
+Vitagl precompiled: https://github.com/Rinnegatamante/vitaGL/tree/legacy_precompiled_ffp
+
+# Rinnegatamante basic rules:
+
+GTA: SA is referenced (is it really such? Quite sure no one of us references that repo directly anymore since years) probably cause it was the first Android port. The repo itself should not be used as reference for two main reasons:
+1) has a lot of game specifics patches
+2) It's fairly outdated (quite sure even the so_utils version it uses is outdated with it lacking stuffs like SO_CONTINUE or LDMIA patches).
+3) For the documentation, no. Long story short:
+   if you've solid C knowledge and basic RE capabilities, you should be able to figure out how the thing works on your own (or in general asking few sensed/well-proposed/targeted questions, so not stuffs like "how do i port gamerino.apk to vita?"). Usually you grab an existing port and start from that as base after clearing it from any game specific patch and jni impl. There are two major skeletons you can use, the ones using FalsoJNI (any gl33ntwine repo, Soulcalibur, Jet Car Stunts 2) and the more barebone ones using raw so_utils (any other Android port as far as I'm aware).
+   
+The whole idea around the "so loader" is:
+
+1) You grab so files (which are ELFs) from the apk and load them using so_utils.
+2) During the loading process, you resolve its imports with native versions of said functions (eg: you resolve OpenGL symbols with vitaGL or PVR_PSP2 ones).
+3) During the loading process, you also apply any game specific patch (eg: skipping license checks, skipping broken code on Vita, etc)
+4) You analyze the .dex file to know how the game actually jumps into C code (entrypoint) and use same entrypoint in your port.
+5) You launch the app you created and proceed into implementing any JNI method (through FalsoJNI or through raw JNI reimpl.) and any specific game patch required until everything works. FalsoJNI: https://github.com/v-atamanenko/FalsoJNI
+
+# Example of porting a slice of code (fix for a port that made rinnegatamante):
+```c
+// VitaGL Wrapper for Android SO Loader Port
+
+// Global variable to store the reference to the main.obb block
+void *obb_blk = NULL;
+
+// Wrapper function for calloc
+void *__wrap_calloc(uint32_t nmember, uint32_t size) {
+    // Forward the call to vglCalloc
+    return vglCalloc(nmember, size);
+}
+
+// Wrapper function for free
+void __wrap_free(void *addr) {
+    // Prevent freeing the main.obb block
+    if (addr != obb_blk)
+        vglFree(addr);
+}
+
+// Wrapper function for malloc
+void *__wrap_malloc(uint32_t size) {
+    // Allocate memory using vglMalloc
+    void *r = vglMalloc(size);
+    
+    // If allocating memory for main.obb
+    if (size > 150 * 1024 * 1024) {
+        // If allocation failed, pass the reference taken the first time
+        if (!r)
+            return obb_blk;
+        
+        // Store a reference to the main.obb block to prevent erroneous copies
+        obb_blk = r;
+    }
+    
+    // Return the allocated memory address
+    return r;
+}
+```
+This code is a set of wrapper functions for memory allocation and deallocation (malloc, calloc, free) in the context of a VitaGL wrapper for an Android SO Loader port. Let's break down what each function does:
+1) void *__wrap_calloc(uint32_t nmember, uint32_t size): This function wraps around the calloc function. It forwards the call to vglCalloc and returns whatever vglCalloc returns.
+2) void __wrap_free(void *addr): This function wraps around the free function. It checks if the memory address being freed is not equal to obb_blk. If it's not equal, meaning it's not the main.obb block, it proceeds to free the memory using vglFree.
+3) void *__wrap_malloc(uint32_t size): This function wraps around the malloc function. It first allocates memory using vglMalloc and stores the result in r. Then it checks if the size of the memory being allocated is greater than 150MB (150 * 1024 * 1024 bytes). If it is, it checks if r is NULL, which would indicate a failed allocation. If it's not NULL, it assigns r to obb_blk, effectively storing a reference to the main.obb block to prevent erroneous copying. If r is NULL, it returns obb_blk, which presumably is the previously stored reference to the main.obb block. Otherwise, it returns r, which contains the allocated memory address.
+4) To port a game you need to translate/wrap its opengl to vitagl for example:
+   void __wrap_free(void *addr) on opengl is going to be void vglFree(void *addr) on vitagl 
+
