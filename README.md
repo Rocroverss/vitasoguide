@@ -85,3 +85,42 @@ This code is a set of wrapper functions for memory allocation and deallocation (
 4) To port a game you need to translate/wrap its opengl to vitagl for example:
    void __wrap_free(void *addr) on opengl is going to be void vglFree(void *addr) on vitagl 
 
+# Another porting block example:
+The Vita and some Android phones both use the same CPU architecture, so it's possible to run code designed for Android directly on the Vita. However, there are differences in how they handle executable files and interact with the operating system. Android is similar to Linux, while the Vita has its own unique system loosely based on BSD.
+
+When porting from Android to the Vita, the main task is to create a version of the Android-specific functions for the Vita. For example, let's take the "open()" function, which is used in Android to open files:
+
+```c
+int open(const char* pathname, int flags, mode_t mode);
+```
+
+On the Vita, there's no direct equivalent to "open()", but there is a similar function called "sceIoOpen":
+
+```c
+SceUID sceIoOpen(const char *file, int flags, SceMode mode);
+```
+
+To make the Android code work on the Vita, you'd need to create your own version of "open()" that translates it into a call to "sceIoOpen". Here's a simplified example:
+
+```c
+int open(const char* pathname, int flags, mode_t mode) {
+     SceMode vmode = 0;
+     if(IS_BIT_SET(mode, O_RDONLY))
+           vmode |= SCE_O_RDONLY;
+     if(IS_BIT_SET(mode, O_WRONLY))
+           vmode |= SCE_O_WRONLY;
+     if(IS_BIT_SET(mode, O_RDWR))
+           vmode |= SCE_O_RDWR;
+
+    return sceioOpen(pathname, flags, vmode);
+
+}
+```
+However, this isn't perfect. It doesn't handle all the flags properly, and it lacks error handling. In Linux, "open()" returns -1 if there's an error and updates the "errno" variable with an error code. But on the Vita, it returns the actual error code directly, which is always negative for errors and non-negative for success.
+
+
+# FAQ:
+1) Can I port X game to psvita? Check the apk port checker and figure it out.
+2) Can someone port X game to psvita? Check the apk port checker and possibly if a developer it's interested it could be ported.
+3) Wouldn't it be easier to develop an overarching "vita porter" than to pick/ choose at individual games? No, that's not the case. Some games on the Vita were able to be transferred because they utilize a specific game engine that has already been adapted for the Vita, thus making the process of porting them feasible and straightforward. However, not all games employ the same game engine, and it's entirely conceivable that the engine may not have been adapted for the Vita at all. Porting processes are unique to each game because, even if the game engine has been adapted, there are numerous adjustments that need to be made, and these adjustments can't be easily automated.
+4) How can I learn how to port? There is no porting tutorials as each game has it's own things to be wrapped. You can learn by reading online, forums, discord servers as well as checking on github how people have ported games. 
