@@ -120,7 +120,11 @@ However, this isn't perfect. It doesn't handle all the flags properly, and it la
 
 
 # FAQ:
-1) Can I port X game to psvita? Check the apk port checker and figure it out.
-2) Can someone port X game to psvita? Check the apk port checker and possibly if a developer it's interested it could be ported.
-3) Wouldn't it be easier to develop an overarching "vita porter" than to pick/ choose at individual games? No, that's not the case. Some games on the Vita were able to be transferred because they utilize a specific game engine that has already been adapted for the Vita, thus making the process of porting them feasible and straightforward. However, not all games employ the same game engine, and it's entirely conceivable that the engine may not have been adapted for the Vita at all. Porting processes are unique to each game because, even if the game engine has been adapted, there are numerous adjustments that need to be made, and these adjustments can't be easily automated.
-4) How can I learn how to port? There is no porting tutorials as each game has it's own things to be wrapped. You can learn by reading online, forums, discord servers as well as checking on github how people have ported games. 
+**1) Can I port X game to psvita?**
+-Check the apk port checker and figure it out.
+**2) Can someone port X game to psvita?**
+-Check the apk port checker and possibly if a developer it's interested it could be ported.
+**3) Wouldn't it be easier to develop an overarching "vita porter" than to pick/ choose at individual games?**
+-No, that's not the case. Some games on the Vita were able to be transferred because they utilize a specific game engine that has already been adapted for the Vita, thus making the process of porting them feasible and straightforward. However, not all games employ the same game engine, and it's entirely conceivable that the engine may not have been adapted for the Vita at all. Porting processes are unique to each game because, even if the game engine has been adapted, there are numerous adjustments that need to be made, and these adjustments can't be easily automated.
+**4) How can I learn how to port?**
+-There is no porting tutorials as each game has it's own things to be wrapped. You can learn by reading online, forums, discord servers as well as checking on github how people have ported games. 
