@@ -13,15 +13,15 @@ Usage guide:
 6) Press on check (each case can be a different scenario false positive/negative might occur).
 
 # gl33ntwine port template:
-Port template: https://github.com/v-atamanenko/soloader-boilerplate
+- Port template: https://github.com/v-atamanenko/soloader-boilerplate
 
 # VitaSDK
-VitaSDK: https://github.com/vitasdk
-VitaSDK precompiled: https://github.com/vitasdk/buildscripts/releases
+- VitaSDK: https://github.com/vitasdk
+- VitaSDK precompiled: https://github.com/vitasdk/buildscripts/releases
 
 # Vitagl
-Vitagl: https://github.com/Rinnegatamante/vitaGL
-Vitagl precompiled: https://github.com/Rinnegatamante/vitaGL/tree/legacy_precompiled_ffp
+- Vitagl: https://github.com/Rinnegatamante/vitaGL
+- Vitagl precompiled: https://github.com/Rinnegatamante/vitaGL/tree/legacy_precompiled_ffp
 
 # Rinnegatamante basic rules:
 
