@@ -165,11 +165,11 @@ However, this isn't perfect. It doesn't handle all the flags properly, and it la
 # FAQ:
 **1) Can I port X game to psvita?**
 
-- Check the apk port checker and figure it out.
+- Well there are some ways to port games to psvita, but unfortunately this guide is focused on android games that are compatible with .so loader. To check if the apk is a candidate use the port checker. After figure it out to port it propertly.
 
 **2) Can someone port X game to psvita?**
 
-- Check the apk port checker and possibly if a developer it's interested it could be ported.
+- Check the apk port checker and after open an [issue](https://github.com/Rinnegatamante/Android2Vita-Candidate-Ports-List/issues), possibly if a developer it's interested it could be ported.
 
 **3) Wouldn't it be easier to develop an overarching "vita porter" than to pick/ choose at individual games?**
 
