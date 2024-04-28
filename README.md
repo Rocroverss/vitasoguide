@@ -1,6 +1,7 @@
 # vitaports
-vitaports_basics
-
+ vitaports_basics:
+- Welcome to Vitaports, your comprehensive resource for porting Android games to the PlayStation Vita platform. Whether you're a seasoned developer or just starting out, Vitaports offers the tools, guidelines, and community support you need to bring your favorite Android titles to the Vita.
+  
 # rocroverss apk port checker:
 
 Usage guide:
@@ -38,6 +39,46 @@ The whole idea around the "so loader" is:
 3) During the loading process, you also apply any game specific patch (eg: skipping license checks, skipping broken code on Vita, etc)
 4) You analyze the .dex file to know how the game actually jumps into C code (entrypoint) and use same entrypoint in your port.
 5) You launch the app you created and proceed into implementing any JNI method (through FalsoJNI or through raw JNI reimpl.) and any specific game patch required until everything works. FalsoJNI: https://github.com/v-atamanenko/FalsoJNI
+
+# Build Instructions (For Developers)
+
+In order to build the loader, you'll need a [vitasdk](https://github.com/vitasdk) build fully compiled with softfp usage.  
+You can find a precompiled version here: https://github.com/vitasdk/buildscripts/actions/runs/1102643776.  
+Additionally, you'll need these libraries to be compiled as well with `-mfloat-abi=softfp` added to their CFLAGS:
+
+- [SDL2_vitagl](https://github.com/Northfear/SDL/tree/vitagl)
+
+- [libmathneon](https://github.com/Rinnegatamante/math-neon)
+
+  - ```bash
+    make install
+    ```
+
+- [vitaShaRK](https://github.com/Rinnegatamante/vitaShaRK)
+
+  - ```bash
+    make install
+    ```
+
+- [kubridge](https://github.com/TheOfficialFloW/kubridge)
+
+  - ```bash
+    mkdir build && cd build
+    cmake .. && make install
+    ```
+
+- [vitaGL](https://github.com/Rinnegatamante/vitaGL)
+
+  - ````bash
+    make SOFTFP_ABI=1 HAVE_GLSL_SUPPORT=1 NO_DEBUG=1 install
+    ````
+
+After all these requirements are met, you can compile the loader with the following commands:
+
+```bash
+mkdir build && cd build
+cmake .. && make
+```
 
 # Example of porting a slice of code (fix for a port that made rinnegatamante):
 ```c
