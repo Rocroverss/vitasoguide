@@ -4,6 +4,8 @@
   
 # rocroverss apk port checker:
 
+This python scripts check if these rules are followed: https://github.com/Rinnegatamante/Android2Vita-Candidate-Ports-List
+
 Usage guide:
 
 1) Download apk tool: https://apktool.org/
