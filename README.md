@@ -3,24 +3,16 @@
 - Welcome to Vitaports, your comprehensive resource for porting Android games to the PlayStation Vita platform. Whether you're a seasoned developer or just starting out, Vitaports offers the tools, guidelines, and community support you need to bring your favorite Android titles to the Vita.
  
  ## Index:
+- [rocroverss apk port checker](#section1)
+- [gl33ntwine port template, vitasdk and vitagl](#section2)
+- [Rinnegatamante basic rules](#section3)
+- [How to start a port](#section4)
+- [Code port examples](#section5)
+- [FAQ](#section6)
+- [Build Instructions (For Developers)](#section7)
 
- 
-  ## Table of Contents
-- [Section 1](#section1)
-- [Section 2](#section2)
-
-## Section 1
+## rocroverss apk port checker:
 <a name="section1"></a>
-
-Content of Section 1
-
-## Section 2
-<a name="section2"></a>
-
-Content of Section 2
-
-  
-# rocroverss apk port checker:
 
 This python scripts check if these rules are followed: https://github.com/Rinnegatamante/Android2Vita-Candidate-Ports-List
 
@@ -33,18 +25,19 @@ Usage guide:
 5) Press on extract apk.
 6) Press on check (each case can be a different scenario false positive/negative might occur).
 
-# gl33ntwine port template:
-- Port template: https://github.com/v-atamanenko/soloader-boilerplate
+## gl33ntwine port template, vitasdk and vitagl
+<a name="section2"></a>
 
-# VitaSDK
+- gl33ntwine Port template: https://github.com/v-atamanenko/soloader-boilerplate
+
 - VitaSDK: https://github.com/vitasdk
 - VitaSDK precompiled: https://github.com/vitasdk/buildscripts/releases
 
-# Vitagl
 - Vitagl: https://github.com/Rinnegatamante/vitaGL
 - Vitagl precompiled: https://github.com/Rinnegatamante/vitaGL/tree/legacy_precompiled_ffp
 
-# Rinnegatamante basic rules:
+## Rinnegatamante basic rules:
+<a name="section3"></a>
 
 GTA: SA is referenced (is it really such? Quite sure no one of us references that repo directly anymore since years) probably cause it was the first Android port. The repo itself should not be used as reference for two main reasons:
 1) has a lot of game specifics patches
@@ -60,7 +53,8 @@ The whole idea around the "so loader" is:
 4) You analyze the .dex file to know how the game actually jumps into C code (entrypoint) and use same entrypoint in your port.
 5) You launch the app you created and proceed into implementing any JNI method (through FalsoJNI or through raw JNI reimpl.) and any specific game patch required until everything works. FalsoJNI: https://github.com/v-atamanenko/FalsoJNI
 
-# How to start a port:
+## How to start a port:
+<a name="section4"></a>
 
 1) Understanding Android App Functionality:
 To begin, it's essential to grasp the workings of an Android application.
@@ -70,47 +64,10 @@ To begin, it's essential to grasp the workings of an Android application.
 3) Translate to vitagl: https://github.com/Rinnegatamante/vitaGL/blob/master/source/vitaGL.h
 4) Get back to the rinnegatamates basic rules.
 
-# Build Instructions (For Developers)
+## Code port examples:
+<a name="section5"></a>
 
-In order to build the loader, you'll need a [vitasdk](https://github.com/vitasdk) build fully compiled with softfp usage.  
-You can find a precompiled version here: https://github.com/vitasdk/buildscripts/actions/runs/1102643776.  
-Additionally, you'll need these libraries to be compiled as well with `-mfloat-abi=softfp` added to their CFLAGS:
-
-- [SDL2_vitagl](https://github.com/Northfear/SDL/tree/vitagl)
-
-- [libmathneon](https://github.com/Rinnegatamante/math-neon)
-
-  - ```bash
-    make install
-    ```
-
-- [vitaShaRK](https://github.com/Rinnegatamante/vitaShaRK)
-
-  - ```bash
-    make install
-    ```
-
-- [kubridge](https://github.com/TheOfficialFloW/kubridge)
-
-  - ```bash
-    mkdir build && cd build
-    cmake .. && make install
-    ```
-
-- [vitaGL](https://github.com/Rinnegatamante/vitaGL)
-
-  - ````bash
-    make SOFTFP_ABI=1 HAVE_GLSL_SUPPORT=1 NO_DEBUG=1 install
-    ````
-
-After all these requirements are met, you can compile the loader with the following commands:
-
-```bash
-mkdir build && cd build
-cmake .. && make
-```
-
-# Example of porting a slice of code (fix for a port that made rinnegatamante):
+### Example of porting a slice of code (fix for a port that made rinnegatamante):
 ```c
 // VitaGL Wrapper for Android SO Loader Port
 
@@ -156,7 +113,7 @@ This code is a set of wrapper functions for memory allocation and deallocation (
 4) To port a game you need to translate/wrap its opengl to vitagl for example:
    void __wrap_free(void *addr) on opengl is going to be void vglFree(void *addr) on vitagl 
 
-# Another porting block example:
+### Another porting block example:
 The Vita and some Android phones both use the same CPU architecture, so it's possible to run code designed for Android directly on the Vita. However, there are differences in how they handle executable files and interact with the operating system. Android is similar to Linux, while the Vita has its own unique system loosely based on BSD.
 
 When porting from Android to the Vita, the main task is to create a version of the Android-specific functions for the Vita. For example, let's take the "open()" function, which is used in Android to open files:
@@ -189,8 +146,10 @@ int open(const char* pathname, int flags, mode_t mode) {
 ```
 However, this isn't perfect. It doesn't handle all the flags properly, and it lacks error handling. In Linux, "open()" returns -1 if there's an error and updates the "errno" variable with an error code. But on the Vita, it returns the actual error code directly, which is always negative for errors and non-negative for success.
 
+## FAQ:
+<a name="section6"></a>
 
-# FAQ:
+
 **1) Can I port X game to psvita?**
 
 - Well there are some ways to port games to psvita, but unfortunately this guide is focused on android games that are compatible with .so loader. To check if the apk is a candidate use the port checker. After figure it out to port it propertly.
@@ -207,4 +166,46 @@ However, this isn't perfect. It doesn't handle all the flags properly, and it la
 
 - There is no porting tutorials as each game has it's own things to be wrapped. You can learn by reading online, forums, discord servers as well as checking on github how people have ported games. 
 
+
+
+## Build Instructions (For Developers)
+<a name="section7"></a>
+
+In order to build the loader, you'll need a [vitasdk](https://github.com/vitasdk) build fully compiled with softfp usage.  
+You can find a precompiled version here: https://github.com/vitasdk/buildscripts/actions/runs/1102643776.  
+Additionally, you'll need these libraries to be compiled as well with `-mfloat-abi=softfp` added to their CFLAGS:
+
+- [SDL2_vitagl](https://github.com/Northfear/SDL/tree/vitagl)
+
+- [libmathneon](https://github.com/Rinnegatamante/math-neon)
+
+  - ```bash
+    make install
+    ```
+
+- [vitaShaRK](https://github.com/Rinnegatamante/vitaShaRK)
+
+  - ```bash
+    make install
+    ```
+
+- [kubridge](https://github.com/TheOfficialFloW/kubridge)
+
+  - ```bash
+    mkdir build && cd build
+    cmake .. && make install
+    ```
+
+- [vitaGL](https://github.com/Rinnegatamante/vitaGL)
+
+  - ````bash
+    make SOFTFP_ABI=1 HAVE_GLSL_SUPPORT=1 NO_DEBUG=1 install
+    ````
+
+After all these requirements are met, you can compile the loader with the following commands:
+
+```bash
+mkdir build && cd build
+cmake .. && make
+```
 
