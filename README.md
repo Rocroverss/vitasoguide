@@ -58,6 +58,18 @@ The whole idea around the "so loader" is:
 4) You analyze the .dex file to know how the game actually jumps into C code (entrypoint) and use same entrypoint in your port.
 5) You launch the app you created and proceed into implementing any JNI method (through FalsoJNI or through raw JNI reimpl.) and any specific game patch required until everything works. FalsoJNI: https://github.com/v-atamanenko/FalsoJNI
 
+1) DEX Files:
+- DEX files are bytecode files that are used by the Android Runtime (ART) or the older Dalvik Virtual Machine (DVM) to execute code written in Java or Kotlin.
+- When you write an Android application in Java or Kotlin, your source code is compiled into bytecode. This bytecode is then translated into DEX format during the build process.
+- DEX files contain the compiled bytecode of your Android application's classes, interfaces, and methods. They are stored in the /dex directory within the APK file.
+- DEX files are platform-independent and can run on any device that supports Android.
+
+2) .so Files:
+- .so files, also known as shared object files or native libraries, contain compiled native code that is specific to a particular CPU architecture (e.g., ARM, x86, x86_64).
+- These files are typically written in C or C++ and are used when you need to include native code in your Android application for performance reasons or when interacting with system-level features that are not accessible through the Android SDK.
+- Unlike DEX files, .so files are platform-dependent. You need to compile them separately for each target architecture that you want to support.
+- .so files are usually stored in the /lib directory within the APK file, with subdirectories for each CPU architecture (e.g., /lib/armeabi-v7a, /lib/arm64-v8a, /lib/x86, etc.).
+
 <a name="section4"></a>
 
 ## How to start a port:
