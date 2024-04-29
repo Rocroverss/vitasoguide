@@ -1,6 +1,24 @@
 # vitaports
  vitaports_basics:
 - Welcome to Vitaports, your comprehensive resource for porting Android games to the PlayStation Vita platform. Whether you're a seasoned developer or just starting out, Vitaports offers the tools, guidelines, and community support you need to bring your favorite Android titles to the Vita.
+ 
+ ## Index:
+
+ 
+  ## Table of Contents
+- [Section 1](#section1)
+- [Section 2](#section2)
+
+## Section 1
+<a name="section1"></a>
+
+Content of Section 1
+
+## Section 2
+<a name="section2"></a>
+
+Content of Section 2
+
   
 # rocroverss apk port checker:
 
@@ -17,9 +35,6 @@ Usage guide:
 
 # gl33ntwine port template:
 - Port template: https://github.com/v-atamanenko/soloader-boilerplate
-
-![Lifetime of an android app](https://raw.githubusercontent.com/Rocroverss/vitasoguide/main/img/lifecycle_of%20andoird_apps.png)
-
 
 # VitaSDK
 - VitaSDK: https://github.com/vitasdk
@@ -44,6 +59,16 @@ The whole idea around the "so loader" is:
 3) During the loading process, you also apply any game specific patch (eg: skipping license checks, skipping broken code on Vita, etc)
 4) You analyze the .dex file to know how the game actually jumps into C code (entrypoint) and use same entrypoint in your port.
 5) You launch the app you created and proceed into implementing any JNI method (through FalsoJNI or through raw JNI reimpl.) and any specific game patch required until everything works. FalsoJNI: https://github.com/v-atamanenko/FalsoJNI
+
+# How to start a port:
+
+1) Understanding Android App Functionality:
+To begin, it's essential to grasp the workings of an Android application.
+![Lifetime of an android app](https://raw.githubusercontent.com/Rocroverss/vitasoguide/main/img/lifecycle_of%20andoird_apps.png)
+2) Inspecting the Dex File:
+ - Next, examine the Dex file to identify the methods it contains. Analyze these methods to determine which native functions they call, their order, and the arguments passed
+3) Translate to vitagl: https://github.com/Rinnegatamante/vitaGL/blob/master/source/vitaGL.h
+4) Get back to the rinnegatamates basic rules.
 
 # Build Instructions (For Developers)
 
