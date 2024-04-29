@@ -58,6 +58,7 @@ The whole idea around the "so loader" is:
 4) You analyze the .dex file to know how the game actually jumps into C code (entrypoint) and use same entrypoint in your port.
 5) You launch the app you created and proceed into implementing any JNI method (through FalsoJNI or through raw JNI reimpl.) and any specific game patch required until everything works. FalsoJNI: https://github.com/v-atamanenko/FalsoJNI
 
+
 1) DEX Files:
 - DEX files are bytecode files that are used by the Android Runtime (ART) or the older Dalvik Virtual Machine (DVM) to execute code written in Java or Kotlin.
 - When you write an Android application in Java or Kotlin, your source code is compiled into bytecode. This bytecode is then translated into DEX format during the build process.
