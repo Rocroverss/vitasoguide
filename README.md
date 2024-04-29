@@ -18,6 +18,9 @@ Usage guide:
 # gl33ntwine port template:
 - Port template: https://github.com/v-atamanenko/soloader-boilerplate
 
+![Lifetime of an android app](https://github.com/Rocroverss/vitasoguide/img/lifecycle_of andoird_apps.png)
+
+
 # VitaSDK
 - VitaSDK: https://github.com/vitasdk
 - VitaSDK precompiled: https://github.com/vitasdk/buildscripts/releases
