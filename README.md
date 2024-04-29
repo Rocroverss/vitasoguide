@@ -13,8 +13,9 @@ vitaports_basics:
 ## [6. FAQ](#section6)
 ## [7. Build Instructions (For Developers)](#section7)
 
-## rocroverss apk port checker:
 <a name="section1"></a>
+
+## rocroverss apk port checker:
 
 This python scripts check if these rules are followed: https://github.com/Rinnegatamante/Android2Vita-Candidate-Ports-List
 
@@ -27,8 +28,9 @@ Usage guide:
 5) Press on extract apk.
 6) Press on check (each case can be a different scenario false positive/negative might occur).
 
-## gl33ntwine port template, vitasdk and vitagl
 <a name="section2"></a>
+
+## gl33ntwine port template, vitasdk and vitagl
 
 - gl33ntwine Port template: https://github.com/v-atamanenko/soloader-boilerplate
 
@@ -38,8 +40,9 @@ Usage guide:
 - Vitagl: https://github.com/Rinnegatamante/vitaGL
 - Vitagl precompiled: https://github.com/Rinnegatamante/vitaGL/tree/legacy_precompiled_ffp
 
-## Rinnegatamante basic rules:
 <a name="section3"></a>
+
+## Rinnegatamante basic rules:
 
 GTA: SA is referenced (is it really such? Quite sure no one of us references that repo directly anymore since years) probably cause it was the first Android port. The repo itself should not be used as reference for two main reasons:
 1) has a lot of game specifics patches
@@ -55,8 +58,9 @@ The whole idea around the "so loader" is:
 4) You analyze the .dex file to know how the game actually jumps into C code (entrypoint) and use same entrypoint in your port.
 5) You launch the app you created and proceed into implementing any JNI method (through FalsoJNI or through raw JNI reimpl.) and any specific game patch required until everything works. FalsoJNI: https://github.com/v-atamanenko/FalsoJNI
 
-## How to start a port:
 <a name="section4"></a>
+
+## How to start a port:
 
 1) Understanding Android App Functionality:
 To begin, it's essential to grasp the workings of an Android application.
@@ -66,8 +70,9 @@ To begin, it's essential to grasp the workings of an Android application.
 3) Translate to vitagl: https://github.com/Rinnegatamante/vitaGL/blob/master/source/vitaGL.h
 4) Get back to the rinnegatamates basic rules.
 
-## Code port examples:
 <a name="section5"></a>
+
+## Code port examples:
 
 ### Example of porting a slice of code (fix for a port that made rinnegatamante):
 ```c
@@ -116,6 +121,7 @@ This code is a set of wrapper functions for memory allocation and deallocation (
    void __wrap_free(void *addr) on opengl is going to be void vglFree(void *addr) on vitagl 
 
 ### Another porting block example:
+
 The Vita and some Android phones both use the same CPU architecture, so it's possible to run code designed for Android directly on the Vita. However, there are differences in how they handle executable files and interact with the operating system. Android is similar to Linux, while the Vita has its own unique system loosely based on BSD.
 
 When porting from Android to the Vita, the main task is to create a version of the Android-specific functions for the Vita. For example, let's take the "open()" function, which is used in Android to open files:
@@ -148,9 +154,9 @@ int open(const char* pathname, int flags, mode_t mode) {
 ```
 However, this isn't perfect. It doesn't handle all the flags properly, and it lacks error handling. In Linux, "open()" returns -1 if there's an error and updates the "errno" variable with an error code. But on the Vita, it returns the actual error code directly, which is always negative for errors and non-negative for success.
 
-## FAQ:
 <a name="section6"></a>
 
+## FAQ:
 
 **1) Can I port X game to psvita?**
 
@@ -168,10 +174,9 @@ However, this isn't perfect. It doesn't handle all the flags properly, and it la
 
 - There is no porting tutorials as each game has it's own things to be wrapped. You can learn by reading online, forums, discord servers as well as checking on github how people have ported games. 
 
-
+<a name="section7"></a>
 
 ## Build Instructions (For Developers)
-<a name="section7"></a>
 
 In order to build the loader, you'll need a [vitasdk](https://github.com/vitasdk) build fully compiled with softfp usage.  
 You can find a precompiled version here: https://github.com/vitasdk/buildscripts/actions/runs/1102643776.  
