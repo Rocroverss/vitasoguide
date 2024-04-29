@@ -1,15 +1,17 @@
 # vitaports
- vitaports_basics:
+
+vitaports_basics:
 - Welcome to Vitaports, your comprehensive resource for porting Android games to the PlayStation Vita platform. Whether you're a seasoned developer or just starting out, Vitaports offers the tools, guidelines, and community support you need to bring your favorite Android titles to the Vita.
  
- # Index:
-1) [## rocroverss apk port checker](#section1)
-2) ## [gl33ntwine port template, vitasdk and vitagl](#section2)
-3) ##[Rinnegatamante basic rules](#section3)
-4) ##[How to start a port](#section4)
-5) ##[Code port examples](#section5)
-6) ##[FAQ](#section6)
-7) ##[Build Instructions (For Developers)](#section7)
+# Index:
+
+## 1) [rocroverss apk port checker](#section1)
+## 2) [gl33ntwine port template, vitasdk and vitagl](#section2)
+## 3) [Rinnegatamante basic rules](#section3)
+##  [4) How to start a port](#section4)
+##  [5) Code port examples](#section5)
+##  [6) FAQ](#section6)
+##  [7) Build Instructions (For Developers)](#section7)
 
 ## rocroverss apk port checker:
 <a name="section1"></a>
