@@ -5,13 +5,13 @@ vitaports_basics:
  
 # Index:
 
-## 1) [rocroverss apk port checker](#section1)
-## 2) [gl33ntwine port template, vitasdk and vitagl](#section2)
-## 3) [Rinnegatamante basic rules](#section3)
-##  [4) How to start a port](#section4)
-##  [5) Code port examples](#section5)
-##  [6) FAQ](#section6)
-##  [7) Build Instructions (For Developers)](#section7)
+## [1. rocroverss apk port checker](#section1)
+## [2. gl33ntwine port template, vitasdk and vitagl](#section2)
+## [3. Rinnegatamante basic rules](#section3)
+## [4. How to start a port](#section4)
+## [5. Code port examples](#section5)
+## [6. FAQ](#section6)
+## [7. Build Instructions (For Developers)](#section7)
 
 ## rocroverss apk port checker:
 <a name="section1"></a>
