@@ -186,7 +186,11 @@ However, this isn't perfect. It doesn't handle all the flags properly, and it la
 
 **4) How can I learn how to port?**
 
-- There is no porting tutorials as each game has it's own things to be wrapped. You can learn by reading online, forums, discord servers as well as checking on github how people have ported games. 
+- There is no porting tutorials as each game has it's own things to be wrapped. You can learn by reading online, forums, discord servers as well as checking on github how people have ported games.
+
+ **5) Can I contribute?
+
+- Of course, open a pull request and it will be checked.
 
 <a name="section7"></a>
 
