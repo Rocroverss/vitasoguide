@@ -11,7 +11,7 @@ vitaports_basics:
 ## [4. How to start a port](#section4)
 ## [5. Code port examples](#section5)
 ## [6. FAQ](#section6)
-## [7. License)](#section7)
+## [7. License](#section7)
 ## [8. Build Instructions (For Developers)](#section8)
 
 <a name="section1"></a>
