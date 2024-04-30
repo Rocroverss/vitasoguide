@@ -11,7 +11,8 @@ vitaports_basics:
 ## [4. How to start a port](#section4)
 ## [5. Code port examples](#section5)
 ## [6. FAQ](#section6)
-## [7. Build Instructions (For Developers)](#section7)
+## [7. License)](#section7)
+## [8. Build Instructions (For Developers)](#section8)
 
 <a name="section1"></a>
 
@@ -191,8 +192,15 @@ However, this isn't perfect. It doesn't handle all the flags properly, and it la
  ** 5) Can I contribute?
 
 - Of course, open a pull request and it will be checked.
-
+- 
 <a name="section7"></a>
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+<a name="section8"></a>
 
 ## Build Instructions (For Developers)
 
