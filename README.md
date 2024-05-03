@@ -7,7 +7,7 @@
 # Index:
 
 ## [1. rocroverss apk port checker](#section1)
-## [2. gl33ntwine port template, vitasdk and vitagl](#section2)
+## [2. Workspace installation](#section2)
 ## [3. Rinnegatamante basic rules](#section3)
 ## [4. How to start a port](#section4)
 ## [5. Code port examples](#section5)
@@ -32,7 +32,9 @@ Usage guide:
 
 <a name="section2"></a>
 
-## gl33ntwine port template, vitasdk and vitagl
+## Workspace installation
+
+  There is no workspace avaliable right now but in the future I would like to create a vm containing the following: gl33ntwine port template, vitasdk and vitagl.
 
 - gl33ntwine Port template: https://github.com/v-atamanenko/soloader-boilerplate
 
