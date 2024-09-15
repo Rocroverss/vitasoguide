@@ -34,14 +34,18 @@ Usage guide:
 
 ## Workspace installation
 
-  There is no workspace avaliable right now but in the future I would like to create a vm containing the following: gl33ntwine port template, vitasdk and vitagl.
+  There is no workspace avaliable right now but in the future I would like to create a vm containing the following: gl33ntwine port template, vitasdk with softfp and vitagl.
+  1) The first step is to installl vitasdk with softfp (similar installation to vitasdk):
+     https://github.com/vitasdk-softfp
+  2) Install Vitagl:
+     https://github.com/Rinnegatamante/vitaGL
+  4) Compile a sample/ port to test that it is working.
+  5)  Clone the gl33ntwine Port template:
+      https://github.com/v-atamanenko/soloader-boilerplate
 
-- gl33ntwine Port template: https://github.com/v-atamanenko/soloader-boilerplate
-
+ Other interesting links:
 - VitaSDK: https://github.com/vitasdk
 - VitaSDK precompiled: https://github.com/vitasdk/buildscripts/releases
-
-- Vitagl: https://github.com/Rinnegatamante/vitaGL
 - Vitagl precompiled: https://github.com/Rinnegatamante/vitaGL/tree/legacy_precompiled_ffp
 
 <a name="section3"></a>
