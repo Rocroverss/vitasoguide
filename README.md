@@ -44,15 +44,15 @@ Usage guide:
       https://github.com/v-atamanenko/soloader-boilerplate
   6) edit the CMAkelists.txt to make it suit your port.
   7) Make dir to the build and get into that directory:
-    ```c
+  ```
     mkidr build
     cd build
-    ```
+  ```
    
    7) Execute the following command to test that it is working and you can at least compile your port:
-    ```c
+   ```
     cmake ..
-    ```
+   ```
 
    9) You are ready to start porting.
 
