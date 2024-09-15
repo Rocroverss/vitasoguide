@@ -49,7 +49,7 @@ Usage guide:
     cd build
   ```
    
-   7) Execute the following command to test that it is working and you can at least compile your port:
+   8) Execute the following command to test that it is working and you can at least compile your port:
    ```
     cmake ..
    ```
@@ -90,6 +90,9 @@ The whole idea around the "so loader" is:
 - These files are typically written in C or C++ and are used when you need to include native code in your Android application for performance reasons or when interacting with system-level features that are not accessible through the Android SDK.
 - Unlike DEX files, .so files are platform-dependent. You need to compile them separately for each target architecture that you want to support.
 - .so files are usually stored in the /lib directory within the APK file, with subdirectories for each CPU architecture (e.g., /lib/armeabi-v7a, /lib/arm64-v8a, /lib/x86, etc.).
+
+## Error 0x8010113D during VPK installation
+If you encounter error 0x8010113D while installing a VPK for your PS Vita application, it may be related to an issue with the LiveArea assets. Specifically, ensure that all images in the sce_sys folder (such as icons and backgrounds) are in 8-bit color depth. Incorrect image formats can cause installation failures.
 
 <a name="section4"></a>
 
