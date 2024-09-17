@@ -12,8 +12,9 @@
 - [x] Apk checker
 - [X] License 
 - [ ] Workspace installation (in progress)
-- [ ] How to test thw workspapce (coming soon)
-- [ ] How to star a port (not well implemented right now) 
+- [ ] How to test the workspapce (coming soon)
+- [ ] How to star a port (not well implemented right now)
+- [ ] Very simple so file to port (coming soon) 
 
  
 # Index:
