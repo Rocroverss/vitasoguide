@@ -6,6 +6,7 @@
 
 ## Project Status
 - Current Completion: ![Progress](https://img.shields.io/badge/Progress-23%25-brightgreen)
+- Last Update: ![Last Update](https://img.shields.io/badge/Last_Update-September_2024-blue)
 
 ### Features:
 - [x] Apk checker
