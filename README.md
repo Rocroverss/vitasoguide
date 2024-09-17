@@ -5,8 +5,8 @@
 - Welcome to Vitaports, your comprehensive resource for porting Android games to the PlayStation Vita platform. Whether you're a seasoned developer or just starting out, Vitaports offers the tools, guidelines, and community support you need to bring your favorite Android titles to the Vita. 
 
 ## Project Status
-- Current Completion: ![Progress](https://img.shields.io/badge/Progress-23%25-brightgreen)
-- Last Update: ![Last Update](https://img.shields.io/badge/Last_Update-September_2024-blue)
+- ![Progress](https://img.shields.io/badge/Progress-23%25-brightgreen)
+- ![Last Update](https://img.shields.io/badge/Last_Update-September_2024-blue)
 
 ### Features:
 - [x] Apk checker
