@@ -40,10 +40,11 @@ Usage guide:
   2) Install Vitagl:
      https://github.com/Rinnegatamante/vitaGL
   4) Compile a sample/ port to test that it is working.
-  5)  Clone the gl33ntwine Port template:
+      (I used baba is you and i had to weak several options to compile it)
+  6)  Clone the gl33ntwine Port template:
       https://github.com/v-atamanenko/soloader-boilerplate
-  6) edit the CMAkelists.txt to make it suit your port.
-  7) Make dir to the build and get into that directory:
+  7) edit the CMAkelists.txt to make it suit your port.
+  8) Make dir to the build and get into that directory:
   ```
     mkidr build
     cd build
@@ -100,13 +101,36 @@ If you encounter error 0x8010113D while installing a VPK for your PS Vita applic
 
 1) Understanding Android App Functionality:
 To begin, it's essential to grasp the workings of an Android application.
-
 ![Lifetime of an android app](https://raw.githubusercontent.com/Rocroverss/vitasoguide/main/img/lifecycle_of%20andoird_apps.png)
 
 2) Inspecting the Dex File:
  - Next, examine the Dex file to identify the methods it contains. Analyze these methods to determine which native functions they call, their order, and the arguments passed
 3) Translate to vitagl: https://github.com/Rinnegatamante/vitaGL/blob/master/source/vitaGL.h
-4) Get back to the rinnegatamates basic rules.
+4) Understand how the so_loader works to be able to port games:
+
+  PS Vita SO Loader: load and execute .so (shared object) files, which are typically not natively supported by the PS Vita. 
+   - Kernel/User Bridges (kubridge) to escalate privileges.
+   - File and Memory Utilities (fios, so_util) to manage file I/O and dynamic library management.
+   - Patching Mechanisms (patch.c) to modify the system or work around the restrictions imposed by Sony's PS Vita firmware.
+
+  lib folder:
+   - falso_jni: JNI stands for Java Native Interface, which is a framework that allows Java code to call or be called by native applications (e.g., C/C++). In the context of the PS Vita, this is related to handling Java interactions with native libraries.
+   - Fios: I/O system libraries, which handle the reading, writing, and manipulation of files. Custom implementation or patch related to file access on the Vita.
+   - kubridge: "kubridge" it stands for "kernel user bridge," which is a mechanism to bridge user-level operations to kernel-level functions. On the PS Vita, this could be used to exploit kernel-level privileges to load .so files or homebrew applications (not sure right now).
+   - libc_bridge: This folder contains libraries and functions related to bridging the standard C library (libc) to the PS Vita environment.
+   - sha1: A folder dealing with SHA-1 hashing, which is often used for verifying the integrity of files or data. 
+   - so_util: Utilities for handling .so (shared object) files. This folder contains code to help with loading and managing these files on the PS Vita.
+  
+  source/loader folder:
+   - reimpl: Likely short for "reimplementation," this folder contains reimplemented versions of key functions or libraries to run shared libraries or homebrew more smoothly on the PS Vita.
+   - utils: A common name for a folder containing utility scripts or helper functions. These can handle various auxiliary tasks for the SO loader (e.g., managing memory, file paths, debugging).
+   - dynlib.c: A C file dealing with "dynamic libraries." This script contains the core logic for handling .so files, including how they are loaded and linked during runtime.
+   - java.c: A C file is involved in handling Java-specific functionality. If the PS Vita environment requires interaction with Java components (e.g., through JNI), this file would manage those calls or interactions.
+   - main.c: This is usually the entry point of a C program. It is responsible for initializing the SO loader, setting up the environment, and handling overall control flow (key element of the loader).
+   - patch.c: A C file that could contain patches or modifications to the PS Vita system, enabling it to load and run non-native libraries or bypass certain security mechanisms. (e.g, skip a broken cinematic).
+
+
+5) Get back to the rinnegatamates basic rules.
 
 <a name="section5"></a>
 
