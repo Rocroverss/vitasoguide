@@ -1,8 +1,11 @@
-# vitaports
+# Android so loader vita ports
 
 ## Description
 
-- Welcome to Vitaports, your comprehensive resource for porting Android games to the PlayStation Vita platform. Whether you're a seasoned developer or just starting out, Vitaports offers the tools, guidelines, and community support you need to bring your favorite Android titles to the Vita.
+- Welcome to Vitaports, your comprehensive resource for porting Android games to the PlayStation Vita platform. Whether you're a seasoned developer or just starting out, Vitaports offers the tools, guidelines, and community support you need to bring your favorite Android titles to the Vita. 
+
+## Project Status
+- Completion: 23%
  
 # Index:
 
