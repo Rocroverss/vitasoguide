@@ -57,15 +57,16 @@ Usage guide:
   6)  Clone the gl33ntwine Port template:
       https://github.com/v-atamanenko/soloader-boilerplate
   7) edit the CMAkelists.txt to make it suit your port.
-  8) Make dir to the build and get into that directory:
+  8) Make dir to the build and get into that directory (this is where the vpk is going to be built):
   ```
     mkidr build
     cd build
   ```
    
-   8) Execute the following command to test that it is working and you can at least compile your port:
+   8) Execute the following commands to test that it is working and you can at least compile your port:
    ```
     cmake ..
+    make
    ```
 
    9) You are ready to start porting.
