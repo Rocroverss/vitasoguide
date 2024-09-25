@@ -54,29 +54,40 @@ Common Issues:
 
 ## Workspace installation
 
-  There is no workspace avaliable right now but in the future I would like to create a vm containing the following: gl33ntwine port template, vitasdk with softfp and vitagl.
-  1) The first step is to installl vitasdk with softfp (similar installation to vitasdk):
-     https://github.com/vitasdk-softfp
-  2) Install Vitagl:
-     https://github.com/Rinnegatamante/vitaGL
-  4) Compile a sample/ port to test that it is working.
-      (I used baba is you and i had to weak several options to compile it)
-  6)  Clone the gl33ntwine Port template:
-      https://github.com/v-atamanenko/soloader-boilerplate
-  7) edit the CMAkelists.txt to make it suit your port.
-  8) Make dir to the build and get into that directory (this is where the vpk is going to be built):
+  There is no pre-configured workspace available at the moment, but a future VM or sh script will contain and install tools needed (gl33ntwine port template, VitaSDK with softfp, and vitaGL).
+  
+  1) The first step is to installl [vitasdk with softfp](https://github.com/vitasdk-softfp)
+     (similar installation to vitasdk):
+  2) Install [Vitagl](https://github.com/Rinnegatamante/vitaGL)
+  3) Compile a sample/ port to test that it is working.
+      > **_NOTE:_** Test that your workspace is functioning by compiling a port
+      > (e.g., "Baba is You"). Be ready to tweak compilation options.
+      > Other might work but use one that it's kind of new and simple.
+  4)  Clone the [gl33ntwine Port template](https://github.com/v-atamanenko/soloader-boilerplate)
+  5) Edit the CMAkelists.txt to make it suit your port.
+  6) Prepare Build Directory:(this is where the vpk is going to be built):
   ```
     mkidr build
     cd build
   ```
    
-   8) Execute the following commands to test that it is working and you can at least compile your port:
+   7) Build the Project:
    ```
     cmake ..
     make
    ```
+  If successful, you should have a working port ready for testing on the PS Vita.
 
-   9) You are ready to start porting.
+Common Issues:
+- VitaSDK Installation Fails: Verify dependencies and ensure you're following the correct softfp setup.
+- Compilation Errors: Ensure CMakeLists.txt matches your environment and the game’s requirements.
+  
+Debugging Tips:
+- Use the vitaGL logging feature to trace OpenGL calls and check for missing symbols.
+- Enable verbose output in cmake for detailed error tracking:
+ ```
+   cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
+ ```
 
  Other interesting links:
 - VitaSDK: https://github.com/vitasdk
