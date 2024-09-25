@@ -18,29 +18,37 @@
  
 # Index:
 
-# [1. rocroverss apk port checker](#section1)
-# [2. Workspace installation](#section2)
-# [3. Rinnegatamante basic rules](#section3)
-# [4. How to start a port](#section4)
-# [5. Code port examples](#section5)
-# [6. FAQ](#section6)
-# [7. License](#section7)
-# [8. Build Instructions (For Developers)](#section8)
+### [1. rocroverss apk port checker](#section1)
+### [2. Workspace installation](#section2)
+### [3. Rinnegatamante basic rules](#section3)
+### [4. How to start a port](#section4)
+### [5. Code port examples](#section5)
+### [6. FAQ](#section6)
+### [7. License](#section7)
+### [8. Build Instructions (For Developers)](#section8)
 
 <a name="section1"></a>
 
 ## rocroverss apk port checker:
 
-This python scripts check if these rules are followed: https://github.com/Rinnegatamante/Android2Vita-Candidate-Ports-List
+The APK Port Checker helps to determine whether a specific APK is a candidate for porting to the PS Vita. It checks if essential rules are followed, as defined in [Rinnegatamante’s Android2Vita-Candidate-Ports-List](https://github.com/Rinnegatamante/Android2Vita-Candidate-Ports-List).
+
 
 Usage guide:
 
-1) Download apk tool: https://apktool.org/
-2) have python installed (3.12 in my case).
-3) Execute the apk_port_validator.py.
-4) Locate the apk and the apk tool.
-5) Press on extract apk.
-6) Press on check (each case can be a different scenario false positive/negative might occur).
+1) Download apk tool from https://apktool.org/
+2) Ensure you have Python installed (version 3.12 or above).
+3) Run the script apk_port_validator.py.
+4) Select the APK you want to check along with the APK tool.
+5) Press the "Extract APK" button.
+6) Press "Check" to validate the APK.
+
+> **_NOTE:_** False positives/negatives may occur, so each case must be manually inspected.
+
+Common Issues:
+- APK Decompilation Fails: Ensure apktool is up-to-date and that the APK is not corrupted.
+- Python Version Conflicts: Make sure you are using Python 3.12 or newer.
+- False Positives: Occasionally, some APKs will be flagged incorrectly. Always verify the output manually.
 
 <a name="section2"></a>
 
