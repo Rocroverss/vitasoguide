@@ -15,27 +15,17 @@
 - [ ] How to test the workspapce (coming soon)
 - [ ] How to star a port (not well implemented right now)
 - [ ] Very simple so file to port (coming soon) 
-
-## Roadmap for Porting Process
-
-1. ![Roadmap](https://img.shields.io/badge/Step_1-Workspace_Installation-blue) **Workspace Installation**
-2. ![Roadmap](https://img.shields.io/badge/Step_2-Compile_a_Sample-green) **Compile a Sample**
-3. ![Roadmap](https://img.shields.io/badge/Step_3-Understand_APKs_and_SO_Files-yellow) **Understand APKs and SO Files**
-4. ![Roadmap](https://img.shields.io/badge/Step_4-Port_Baba_Is_You-orange) **Compile a Port (`so loader` Example: Baba is You)**
-5. ![Roadmap](https://img.shields.io/badge/Step_5-Port_a_Simple_SO_Example-red) **Port a Simple `.so` Example**
-6. ![Roadmap](https://img.shields.io/badge/Step_6-Port_Your_Own_APK-purple) **Port Your Own APK (Hardware Considerations)**
-
  
 # Index:
 
-## [1. rocroverss apk port checker](#section1)
-## [2. Workspace installation](#section2)
-## [3. Rinnegatamante basic rules](#section3)
-## [4. How to start a port](#section4)
-## [5. Code port examples](#section5)
-## [6. FAQ](#section6)
-## [7. License](#section7)
-## [8. Build Instructions (For Developers)](#section8)
+# [1. rocroverss apk port checker](#section1)
+# [2. Workspace installation](#section2)
+# [3. Rinnegatamante basic rules](#section3)
+# [4. How to start a port](#section4)
+# [5. Code port examples](#section5)
+# [6. FAQ](#section6)
+# [7. License](#section7)
+# [8. Build Instructions (For Developers)](#section8)
 
 <a name="section1"></a>
 
