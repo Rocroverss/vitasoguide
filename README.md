@@ -178,7 +178,7 @@ Shader Format
 - Answer: Android games typically use GLSL shaders.
 
 Error 0x8010113D during VPK installation
-If you encounter error 0x8010113D while installing a VPK for your PS Vita application, it may be related to an issue with the LiveArea assets. Specifically, ensure that all images in the sce_sys folder (such as icons and backgrounds) are in 8-bit color depth. Incorrect image formats can cause installation failures.
+- If you encounter error 0x8010113D while installing a VPK for your PS Vita application, it may be related to an issue with the LiveArea assets. Specifically, ensure that all images in the sce_sys folder (such as icons and backgrounds) are in 8-bit color depth. Incorrect image formats can cause installation failures.
 - Cause: Issues with LiveArea assets (e.g., incorrect image formats).
 - Fix: Ensure images in sce_sys are in 8-bit color depth.
 
