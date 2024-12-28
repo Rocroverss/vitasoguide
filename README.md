@@ -6,12 +6,12 @@
 
 ## Project Status
 - ![Progress](https://img.shields.io/badge/Progress-23%25-brightgreen)
-- ![Last Update](https://img.shields.io/badge/Last_Update-September_2024-blue)
+- ![Last Update](https://img.shields.io/badge/Last_Update-December_2024-blue)
 
 ### Features:
 - [x] Apk checker
 - [X] License 
-- [ ] Workspace installation (in progress)
+- [ ] Workspace installation (in progress sh slighly works)
 - [ ] How to test the workspapce (coming soon)
 - [ ] How to star a port (not well implemented right now)
 - [ ] Very simple so file to port (coming soon) 
@@ -54,7 +54,7 @@ Common Issues:
 
 ## Workspace installation
 
-  There is no pre-configured workspace available at the moment, but a future VM or sh script will contain and install tools needed (gl33ntwine port template, VitaSDK with softfp, and vitaGL).
+  A pre-configured workspace installer .sh script is available for Linux, but it has known bugs and is not recommended. However, a future virtual machine (VM) or improved .sh script is planned, which will include and install all the necessary tools, such as the gl33ntwine port template, VitaSDK with softfp, and vitaGL.
   
   1) The first step is to installl [vitasdk with softfp](https://github.com/vitasdk-softfp)
      (similar installation to vitasdk):
@@ -124,8 +124,8 @@ The whole idea around the "so loader" is:
 - Unlike DEX files, .so files are platform-dependent. You need to compile them separately for each target architecture that you want to support.
 - .so files are usually stored in the /lib directory within the APK file, with subdirectories for each CPU architecture (e.g., /lib/armeabi-v7a, /lib/arm64-v8a, /lib/x86, etc.).
 
-## Error 0x8010113D during VPK installation
-If you encounter error 0x8010113D while installing a VPK for your PS Vita application, it may be related to an issue with the LiveArea assets. Specifically, ensure that all images in the sce_sys folder (such as icons and backgrounds) are in 8-bit color depth. Incorrect image formats can cause installation failures.
+
+
 
 <a name="section4"></a>
 
@@ -163,6 +163,24 @@ To begin, it's essential to grasp the workings of an Android application.
 
 
 5) Get back to the rinnegatamates basic rules.
+
+## Troubleshooting Common Issues during a psvita port.
+Undefined References (e.g., FMOD)
+- Issue: Missing or incompatible .so files.
+- Solution: Ensure correct stub files are used. For example, rename FMOD Studio API files to match the required format.
+
+Graphics Errors (e.g., GL_INVALID_ENUM)
+- Issue: These errors often arise during OpenGL calls.
+- Solution: Most errors are harmless unless they explicitly cause crashes or rendering issues.
+
+Shader Format
+- Question: How to determine the shader format?
+- Answer: Android games typically use GLSL shaders.
+
+Error 0x8010113D during VPK installation
+If you encounter error 0x8010113D while installing a VPK for your PS Vita application, it may be related to an issue with the LiveArea assets. Specifically, ensure that all images in the sce_sys folder (such as icons and backgrounds) are in 8-bit color depth. Incorrect image formats can cause installation failures.
+- Cause: Issues with LiveArea assets (e.g., incorrect image formats).
+- Fix: Ensure images in sce_sys are in 8-bit color depth.
 
 <a name="section5"></a>
 
