@@ -13,7 +13,7 @@
 - [X] License 
 - [ ] Workspace installation (in progress sh slighly works)
 - [ ] How to test the workspapce (coming soon)
-- [ ] How to star a port (not well implemented right now)
+- [ ] How to start a port (not well implemented right now)
 - [ ] Very simple so file to port (coming soon) 
  
 # Index:
