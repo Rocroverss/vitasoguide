@@ -102,36 +102,85 @@ install_vitaGL_REQUIRED_LIBS() {
 echo "Installing vitashark..."
 cd /usr/local/vitasdk || log_error "Failed to navigate to /usr/local/vitasdk."
 
-# Clone vitashark repository
-if [ ! -d "/usr/local/vitasdk/vitaShaRK" ]; then
   echo "Cloning vitaShaRK..."
-  git clone https://github.com/Rinnegatamante/vitaShaRK.git
   git clone https://github.com/Rinnegatamante/vitaShaRK.git "/usr/local/vitasdk/arm-vita-eabi/include/vitaShaRK" || log_error "Failed to clone vitaShaRK repository."
+  echo "Cloning SceShaccCgExt..."
+  git clone https://github.com/bythos14/SceShaccCgExt.git "/usr/local/vitasdk/arm-vita-eabi/include/SceShaccCgExt" || log_error "Failed to clone SceShaccCgExt repository."
+  echo "Cloning math-neon..."
+  git clone https://github.com/andrepuschmann/math-neon.git "/usr/local/vitasdk/arm-vita-eabi/include/math-neon" || log_error "Failed to clone math-neon repository."
+  echo "Cloning math-neon-rinne..."
+  git clone https://github.com/Rinnegatamante/math-neon.git "/usr/local/vitasdk/arm-vita-eabi/include/math-neon-rinne" || log_error "Failed to clone math-neon repository."
+  echo "Cloning taiHEN..."
+  git clone https://github.com/yifanlu/taiHEN.git "/usr/local/vitasdk/arm-vita-eabi/include/taiHEN" || log_error "Failed to clone taiHEN repository."
+
+# Clone math-neon repository
+if [ ! -d "/usr/local/vitasdk/taiHEN" ]; then
+  # Navigate to the taiHEN repository
+  cd "/usr/local/vitasdk/arm-vita-eabi/include/taiHEN" || log_error "Failed to navigate to taiHEN directory."
+  # Copy files to destination, excluding CMakeLists.txt
+  echo "Copying taiHEN contents to /usr/local/vitasdk/arm-vita-eabi/include..."
+  find . -type f ! -name "CMakeLists.txt" -exec cp --parents -n {} /usr/local/vitasdk/arm-vita-eabi/include/ \;
+  # Confirm completion
+  echo "Contents copied successfully, existing files were preserved."
 else
-  echo "vitaShaRK is already cloned."
+  echo "taiHEN is already cloned."
 fi
+cd /usr/local/vitasdk || log_error "Failed to navigate to /usr/local/vitasdk."
 
 # Clone SceShaccCgExt repository
 if [ ! -d "/usr/local/vitasdk/SceShaccCgExt" ]; then
-  echo "Cloning SceShaccCgExt..."
-  git clone https://github.com/bythos14/SceShaccCgExt.git "/usr/local/vitasdk/arm-vita-eabi/include/SceShaccCgExt" || log_error "Failed to clone SceShaccCgExt repository."
+  cd /usr/local/vitasdk/arm-vita-eabi/include/SceShaccCgExt
+  mkdir build
+  cd build 
+  cmake ..
+  make
+  cp /usr/local/vitasdk/arm-vita-eabi/include/SceShaccCgExt/build/libSceShaccCgExt.a /usr/local/vitasdk/arm-vita-eabi/lib
 else
   echo "SceShaccCgExt is already cloned."
 fi
-# Clone math-neon repository
-if [ ! -d "/usr/local/vitasdk/SceShaccCgExt" ]; then
-  echo "Cloning math-neon..."
-  git clone https://github.com/andrepuschmann/math-neon.git "/usr/local/vitasdk/arm-vita-eabi/include/math-neon" || log_error "Failed to clone math-neon repository."
-else
-  echo "math-neon is already cloned."
-fi
-
-# Copy vitaShaRK libraries
-copy_files "$INCLUDE_DIR/vitaShaRK/source" "$INCLUDE_DIR" "vitaShaRK"
+cd /usr/local/vitasdk || log_error "Failed to navigate to /usr/local/vitasdk."
 
 # Copy SceShaccCgExt libraries
 copy_files "$INCLUDE_DIR/SceShaccCgExt/include" "$INCLUDE_DIR" "SceShaccCgExt (include)"
 copy_files "$INCLUDE_DIR/SceShaccCgExt/src" "$INCLUDE_DIR" "SceShaccCgExt (src)"
+
+
+# Clone vitashark repository
+if [ ! -d "/usr/local/vitasdk/vitaShaRK" ]; then
+  cd /usr/local/vitasdk/arm-vita-eabi/include/vitaShaRK
+  make VERBOSE=1
+  cp /usr/local/vitasdk/arm-vita-eabi/include/vitaShaRK/libvitashark.a /usr/local/vitasdk/arm-vita-eabi/lib
+else
+  echo "vitaShaRK is already cloned."
+fi
+cd /usr/local/vitasdk || log_error "Failed to navigate to /usr/local/vitasdk."
+
+# Copy vitaShaRK libraries
+copy_files "$INCLUDE_DIR/vitaShaRK/source" "$INCLUDE_DIR" "vitaShaRK"
+
+cd /usr/local/vitasdk || log_error "Failed to navigate to /usr/local/vitasdk."
+# Download the tarball directly to the destination directory
+echo "Downloading taihen.tar.gz..."
+wget -O /usr/local/vitasdk/taihen.tar.gz https://github.com/yifanlu/taiHEN/releases/download/v0.11/taihen.tar.gz || log_error "Failed to download taihen.tar.gz."
+# Extract the tarball in place
+echo "Extracting taihen.tar.gz..."
+tar -xzf /usr/local/vitasdk/taihen.tar.gz -C /usr/local/vitasdk || log_error "Failed to extract taihen.tar.gz."
+# Remove the tarball after extraction
+rm /usr/local/vitasdk/taihen.tar.gz
+# Confirm success
+echo "taihen.tar.gz downloaded and extracted successfully in /usr/local/vitasdk/arm-vita-eabi/lib."
+
+cp /usr/local/vitasdk/lib/libtaihenForKernel_stub.a /usr/local/vitasdk/arm-vita-eabi/lib
+cp /usr/local/vitasdk/lib/libtaihen_stub_weak.a /usr/local/vitasdk/arm-vita-eabi/lib
+cp /usr/local/vitasdk/lib/libtaihen_stub.a /usr/local/vitasdk/arm-vita-eabi/lib
+cp /usr/local/vitasdk/lib/libtaihenModuleUtils_stub.a /usr/local/vitasdk/arm-vita-eabi/lib
+
+cd /usr/local/vitasdk/arm-vita-eabi/include/math-neon-rinne
+make
+cp /usr/local/vitasdk/arm-vita-eabi/include/math-neon-rinne/libmathneon.a /usr/local/vitasdk/arm-vita-eabi/lib || log_error "No file or directory"
+#cp /usr/local/vitasdk/arm-vita-eabi/include/math-neon-rinne/libmathneon.a
+echo "math-neon-rinne is cloppied."
+cd /usr/local/vitasdk || log_error "Failed to navigate to /usr/local/vitasdk."
 
 # Copy math-neon libraries
 copy_files "$INCLUDE_DIR/math-neon/src" "$INCLUDE_DIR" "math-neon"
@@ -263,171 +312,273 @@ EOL
 test_vitagl() {
   echo "Testing VitaGL installation..."
   sleep 5
+  pwd
   if [ -f "$VITASDK/arm-vita-eabi/lib/libvitaGL.a" ]; then
     echo "Compiling a sample project using VitaGL..."
-    temp_dir=$(mktemp -d)
-    trap 'rm -rf "$temp_dir"' EXIT
+    
+    # Navigate to the sample project directory
+    sample_dir="/usr/local/vitasdk/arm-vita-eabi/include/vitaGL/samples/rotating_cube"
+    if [ ! -d "$sample_dir" ]; then
+      echo "Sample project directory not found: $sample_dir"
+      exit 1
+    fi
 
-    # Updated sample project
-    cat <<EOL > "$temp_dir/main.c"
-// Drawing a rotating cube with VBO
-#include <vitaGL.h>
-#include <math.h>
+    cd "$sample_dir" || exit
+    make clean
+    make || { echo "Compilation failed. Check the output for errors."; exit 1; }
 
-// Helper macro to get offset in a VBO for an element without having compilation warnings
-#define BUF_OFFS(i) ((void*)(i))
-
-float colors[] = {1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0}; // Colors for a face
-float vertices_front[] = {-0.5f, -0.5f, -0.5f, 0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f, -0.5f}; // Front Face
-float vertices_back[] = {-0.5f, -0.5f, 0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f}; // Back Face
-float vertices_left[] = {-0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f}; // Left Face
-float vertices_right[] = {0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f}; // Right Face
-float vertices_top[] = {-0.5f, -0.5f, -0.5f, 0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, 0.5f}; // Top Face
-float vertices_bottom[] = {-0.5f, 0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f}; // Bottom Face
-
-// Buffers used for EBO and VBO
-GLuint buffers[2];
-
-uint16_t indices[] = {
-	 0, 1, 2, 1, 2, 3, // Front
-	 4, 5, 6, 5, 6, 7, // Back
-	 8, 9,10, 9,10,11, // Left
-	12,13,14,13,14,15, // Right
-	16,17,18,17,18,19, // Top
-	20,21,22,21,22,23  // Bottom
-};
-
-int main(){
-	// Initializing graphics device
-	vglInit(0x80000);
-
-	// Enabling V-Sync
-	vglWaitVblankStart(GL_TRUE);
-	
-	// Creating VBO data with vertices + colors
-	float vbo[12*12];
-	memcpy(&vbo[12*0], &vertices_front[0], sizeof(float) * 12);
-	memcpy(&vbo[12*1], &vertices_back[0], sizeof(float) * 12);
-	memcpy(&vbo[12*2], &vertices_left[0], sizeof(float) * 12);
-	memcpy(&vbo[12*3], &vertices_right[0], sizeof(float) * 12);
-	memcpy(&vbo[12*4], &vertices_top[0], sizeof(float) * 12);
-	memcpy(&vbo[12*5], &vertices_bottom[0], sizeof(float) * 12);
-	memcpy(&vbo[12*6], &colors[0], sizeof(float) * 12);
-	memcpy(&vbo[12*7], &colors[0], sizeof(float) * 12);
-	memcpy(&vbo[12*8], &colors[0], sizeof(float) * 12);
-	memcpy(&vbo[12*9], &colors[0], sizeof(float) * 12);
-	memcpy(&vbo[12*10], &colors[0], sizeof(float) * 12);
-	memcpy(&vbo[12*11], &colors[0], sizeof(float) * 12);
-	
-	// Creating two buffers for colors, vertices and indices
-	glGenBuffers(2, buffers);
-	
-	// Setting up VBO
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12 * 12, vbo, GL_STATIC_DRAW);
-	
-	// Setting up EBO
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * 6 * 6, indices, GL_STATIC_DRAW);
-	
-	// Setting clear color
-	glClearColor (0.0f, 0.0f, 0.0f, 0.0f);
-	
-	// Initializing mvp matrix with a perspective full screen matrix
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(90.0f, 960.f/544.0f, 0.01f, 100.0f);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, -3.0f); // Centering the cube
-
-	// Enabling depth test
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-	
-	// Main loop
-	for (;;) {
-		// Clear color and depth buffers
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		// Drawing our cube with VBO
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, BUF_OFFS(0));
-		glColorPointer(3, GL_FLOAT, 0, BUF_OFFS(12*6*sizeof(float)));
-		glRotatef(1.0f, 0.0f, 0.0f, 1.0f); // Rotating cube at each frame by 1 on axis x and axis w
-		glRotatef(0.5f, 0.0f, 1.0f, 0.0f); // Rotating cube at each frame by 0.5 on axis x and 1.0 on axis z
-		glDrawElements(GL_TRIANGLES, 6*6, GL_UNSIGNED_SHORT, BUF_OFFS(0));
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
-		
-		// Performing buffer swap
-		vglSwapBuffers(GL_FALSE);
-	}
-
-	// Terminating graphics device	
-	vglEnd();
-}
-EOL
-
-    # Updated sample project
-    cat <<EOL > "$temp_dir/makefile"
-TITLEID     := VGLVBORCB
-TARGET		:= vbo_rotating_cube
-SOURCES		:= .
-			
-INCLUDES	:= include
-
-LIBS = -lvitaGL -lc -lSceCommonDialog_stub -lm -lSceGxm_stub -lSceDisplay_stub -lSceAppMgr_stub -lmathneon \
-	-lvitashark -lSceShaccCgExt -ltaihen_stub -lSceShaccCg_stub -lSceKernelDmacMgr_stub
-
-CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
-CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))
-BINFILES := $(foreach dir,$(DATA), $(wildcard $(dir)/*.bin))
-OBJS     := $(addsuffix .o,$(BINFILES)) $(CFILES:.c=.o) $(CPPFILES:.cpp=.o) 
-
-PREFIX  = arm-vita-eabi
-CC      = $(PREFIX)-gcc
-CXX      = $(PREFIX)-g++
-CFLAGS  = -g -Wl,-q -O2 -ftree-vectorize
-CXXFLAGS  = $(CFLAGS) -fno-exceptions -std=gnu++11 -fpermissive
-ASFLAGS = $(CFLAGS)
-
-all: $(TARGET).vpk
-
-$(TARGET).vpk: eboot.bin
-	vita-mksfoex -s TITLE_ID=$(TITLEID) "$(TARGET)" param.sfo
-	vita-pack-vpk -s param.sfo -b eboot.bin $@
-
-eboot.bin: $(TARGET).velf
-	vita-make-fself -s $< eboot.bin	
-	
-%.velf: %.elf
-	vita-elf-create $< $@
-	
-$(TARGET).elf: $(OBJS)
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
-	
-clean:
-	@rm -rf *.velf *.elf *.vpk $(OBJS) param.sfo eboot.bin
-EOL
-
-    # Compile the sample project
-    #arm-vita-eabi-gcc "$temp_dir/main.c" -o "$temp_dir/main.elf" -lvitaGL -lSceDisplay -lSceCtrl
-    make || log_error "Compilation failed. Check the output for errors."
-    if [ -f "$temp_dir/main.elf" ]; then
+    # Check if the VPK file was generated
+    if [ -f "$sample_dir/rotating_cube.vpk" ]; then
       echo "VitaGL is installed and working correctly!"
     else
-      log_error "VitaGL test failed. Ensure VitaGL is properly installed."
+      echo "VitaGL test failed. Ensure VitaGL is properly installed."
     fi
   else
-    log_error "VitaGL is not installed. Install it first."
+    echo "VitaGL is not installed. Install it first."
   fi
 }
+
+compile_sdl2_vitagl() {
+  echo "Compiling Northfear's fork of SDL2 with VitaGL backend..."
+  sleep 5
+
+  # Navigate to a working directory
+  working_dir="/usr/local/vitasdk"
+  if [ ! -d "$working_dir" ]; then
+    echo "Working directory not found: $working_dir"
+    exit 1
+  fi
+
+  cd "$working_dir" || exit
+
+  # Clone the SDL2 repository
+  repo_url="https://github.com/Northfear/SDL.git"
+  project_dir="$working_dir/SDL"
+  if [ -d "$project_dir" ]; then
+    echo "Repository already cloned. Pulling latest changes..."
+    cd "$project_dir" || exit
+    git pull || { echo "Failed to pull latest changes. Exiting."; exit 1; }
+  else
+    echo "Cloning repository..."
+    git clone "$repo_url" || { echo "Failed to clone repository. Exiting."; exit 1; }
+    cd "$project_dir" || exit
+  fi
+
+  # Checkout the VitaGL branch
+  echo "Checking out the VitaGL branch..."
+  git checkout vitagl || { echo "Failed to checkout 'vitagl' branch. Exiting."; exit 1; }
+
+  # Configure and build SDL2
+  build_dir="$project_dir/build"
+  echo "Running CMake configuration..."
+  cmake -S. -B"$build_dir" \
+    -DCMAKE_TOOLCHAIN_FILE="${VITASDK}/share/vita.toolchain.cmake" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DVIDEO_VITA_VGL=ON || { echo "CMake configuration failed. Exiting."; exit 1; }
+
+  echo "Building SDL2..."
+  cmake --build "$build_dir" -- -j"$(nproc)" || { echo "Build failed. Exiting."; exit 1; }
+
+  echo "Installing SDL2..."
+  cmake --install "$build_dir" || { echo "Installation failed. Exiting."; exit 1; }
+
+  echo "Northfear's SDL2 with VitaGL backend successfully compiled and installed!"
+}
+
+install_stb_library() {
+  echo "Installing stb libraries..."
+
+  # Define the destination and repository
+  destination="/usr/local/vitasdk/include/stb"
+  #destination="/usr/local/vitasdk/lib/stb"
+  repo_url="https://github.com/nothings/stb.git"
+
+  # Check if the destination directory exists, create it if not
+  if [ ! -d "$destination" ]; then
+    echo "Creating destination directory: $destination"
+    mkdir -p "$destination" || { echo "Failed to create directory. Exiting."; exit 1; }
+  fi
+
+  # Navigate to a working directory for cloning
+  temp_dir=$(mktemp -d)
+  trap 'rm -rf "$temp_dir"' EXIT
+
+  echo "Cloning stb repository..."
+  git clone "$repo_url" "$temp_dir" || { echo "Failed to clone stb repository. Exiting."; exit 1; }
+
+  # Copy the header files to the destination
+  echo "Installing stb headers to $destination..."
+  cp "$temp_dir"/*.h "$destination" || { echo "Failed to copy header files. Exiting."; exit 1; }
+
+  echo "stb libraries successfully installed to $destination"
+}
+
+install_zlib_vitasdk() {
+    # Define the installation paths
+    VITASDK_PREFIX="/usr/local/vitasdk/arm-vita-eabi"
+    INCLUDE_DIR="${VITASDK_PREFIX}/include"
+    LIB_DIR="${VITASDK_PREFIX}/lib"
+
+    # Ensure directories exist
+    mkdir -p "$INCLUDE_DIR" "$LIB_DIR"
+
+    # Define the zlib version and source URL
+    ZLIB_VERSION="1.3.1"
+    ZLIB_URL="https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz"
+
+    # Download zlib source
+    echo "Downloading zlib ${ZLIB_VERSION}..."
+    wget -q "$ZLIB_URL" -O "zlib-${ZLIB_VERSION}.tar.gz"
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to download zlib."
+        return 1
+    fi
+
+    # Extract the source code
+    echo "Extracting zlib..."
+    tar -xf "zlib-${ZLIB_VERSION}.tar.gz"
+    cd "zlib-${ZLIB_VERSION}" || return 1
+
+    # Build and install zlib for VitaSDK
+    echo "Building and installing zlib for VitaSDK..."
+    ./configure --prefix="$VITASDK_PREFIX"
+    if [ $? -ne 0 ]; then
+        echo "Error: Configuration failed."
+        return 1
+    fi
+
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: Build failed."
+        return 1
+    fi
+
+    make install
+    if [ $? -ne 0 ]; then
+        echo "Error: Installation failed."
+        return 1
+    fi
+
+    # Clean up
+    cd ..
+    rm -rf "zlib-${ZLIB_VERSION}" "zlib-${ZLIB_VERSION}.tar.gz"
+
+    echo "zlib installed successfully in $VITASDK_PREFIX"
+}
+
+install_opensles_vitasdk() {
+    # Define paths
+    VITASDK_PREFIX="/usr/local/vitasdk/arm-vita-eabi"
+    INCLUDE_DIR="${VITASDK_PREFIX}/include"
+    LIB_DIR="${VITASDK_PREFIX}/lib"
+
+    # Ensure the target directories exist
+    mkdir -p "$INCLUDE_DIR" "$LIB_DIR"
+
+    # Clone the OpenSLES repository
+    echo "Cloning OpenSLES repository..."
+    git clone https://github.com/Rinnegatamante/opensles.git /usr/local/vitasdk/opensles 
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to clone OpenSLES repository."
+        return 1
+    fi
+
+    # Navigate to the repository
+    cd /usr/local/vitasdk/opensles || return 1
+
+    # Build the OpenSLES library
+    echo "Building OpenSLES..."
+    make
+    if [ $? -ne 0 ]; then
+        echo "Error: Build failed."
+        cd ..
+        #rm -rf opensles
+        return 1
+    fi
+
+    # Install the headers and library
+    echo "Installing OpenSLES..."
+    cp -r include/SLES "$INCLUDE_DIR"
+    cp libopenSLES.a "$LIB_DIR"
+
+    # Clean up
+    cd ..
+    #rm -rf opensles
+
+    echo "OpenSLES successfully installed in $VITASDK_PREFIX"
+}
+
+test_android_port_compilation() {
+  echo "Testing Android port compilation..."
+  sleep 5
+  
+  # Navigate to the VITASDK directory
+  sdk_dir="/usr/local/vitasdk/"
+  if [ ! -d "$sdk_dir" ]; then
+    echo "VITASDK directory not found: $sdk_dir"
+    exit 1
+  fi
+
+  cd "$sdk_dir" || exit
+
+  # Clone the repository
+  repo_url="https://github.com/v-atamanenko/baba-is-you-vita.git"
+  project_dir="$sdk_dir/baba-is-you-vita"
+  if [ -d "$project_dir" ]; then
+    echo "Repository already cloned. Pulling latest changes..."
+    cd "$project_dir" || exit
+    git pull || { echo "Failed to pull latest changes. Exiting."; exit 1; }
+  else
+    echo "Cloning repository..."
+    git clone "$repo_url" || { echo "Failed to clone repository. Exiting."; exit 1; }
+    cd "$project_dir" || exit
+  fi
+  cd "$project_dir/lib/libc_bridge"
+  make || { echo "Compilation of "libSceLibcBridge_stub.a" failed. Check the output for errors."; exit 1; }
+  cp "/usr/local/vitasdk/include/stb"/*.h "$project_dir/lib/stb" || { echo "Failed to copy all stb .h files. Exiting."; exit 1; } 
+  # Create and navigate to the build directory
+  build_dir="$project_dir/build"
+  mkdir -p "$build_dir"
+  cd "$build_dir" || exit
+
+  # Run CMake and make
+  echo "Running CMake..."
+  cmake .. || { echo "CMake configuration failed. Exiting."; exit 1; }
+  echo "Compiling project..."
+  make || { echo "Compilation failed. Check the output for errors."; exit 1; }
+
+  # Check if the VPK file was generated
+  vpk_file="$build_dir/BABAISYOU.vpk"
+  if [ -f "$vpk_file" ]; then
+    echo "Android port compiled successfully! VPK generated: $vpk_file"
+  else
+    echo "Compilation failed. VPK not generated."
+    exit 1
+  fi
+}
+
+# Function to print the box
+echo_box() {
+    # Print top border
+    echo -e "${GREEN}#########################################${NC}"
+    # Print the message in the center
+    echo -e "${GREEN}# You did it, workspace installed,       #${NC}"
+    echo -e "${GREEN}# you can start porting!               #${NC}"
+    # Print bottom border
+    echo -e "${GREEN}#########################################${NC}"
+}
+
 
 install_cmake
 install_VitaSDK
 test_VitaSDK
 install_vitagl
 test_vitagl
+compile_sdl2_vitagl
+install_stb_library
+install_zlib_vitasdk
+#install_opensles_vitasdk
+test_android_port_compilation
+echo_box
+
 #install_rest
