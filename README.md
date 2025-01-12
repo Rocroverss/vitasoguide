@@ -43,7 +43,7 @@ Usage guide:
 5) Press the "Extract APK" button.
 6) Press "Check" to validate the APK.
 
-> **_NOTE:_** False positives/negatives may occur, so each case must be manually inspected.
+> **_NOTE:_** False positives/negatives may occur, so each case must be manually inspected. Another checker is avaliable by [withLogic](https://github.com/withLogic/vitaApkCheck)
 
 Common Issues:
 - APK Decompilation Fails: Ensure apktool is up-to-date and that the APK is not corrupted.
