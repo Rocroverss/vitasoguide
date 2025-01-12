@@ -5,8 +5,8 @@
 - Welcome to Vitaports, your comprehensive resource for porting Android games to the PlayStation Vita platform. Whether you're a seasoned developer or just starting out, Vitaports offers the tools, guidelines, and community support you need to bring your favorite Android titles to the Vita. 
 
 ## Project Status
-- ![Progress](https://img.shields.io/badge/Progress-23%25-brightgreen)
-- ![Last Update](https://img.shields.io/badge/Last_Update-December_2024-blue)
+- ![Progress](https://img.shields.io/badge/Progress-24%25-brightgreen)
+- ![Last Update](https://img.shields.io/badge/Last_Update-January_2025-blue)
 
 ### Features:
 - [x] Apk checker
@@ -132,12 +132,67 @@ The whole idea around the "so loader" is:
 ## How to start a port:
 
 1) Understanding Android App Functionality:
-To begin, it's essential to grasp the workings of an Android application.
+To begin, it's essential to grasp the workings of an Android application. (Which other internal functions may vary depending on ythe specific android app)
 ![Lifetime of an android app](https://raw.githubusercontent.com/Rocroverss/vitasoguide/main/img/lifecycle_of%20andoird_apps.png)
 
-2) Inspecting the Dex File:
- - Next, examine the Dex file to identify the methods it contains. Analyze these methods to determine which native functions they call, their order, and the arguments passed
+2) Inspecting the Dex File
+Examine the Dex file to identify the methods it contains. Analyze these methods to determine:
+- Which native functions they call.
+- The order of these calls.
+- The arguments passed to these functions.
+For this process, it is recommended to use tools like Ghidra or IDA Pro to better understand the behavior of the file.
+
 3) Translate to vitagl: https://github.com/Rinnegatamante/vitaGL/blob/master/source/vitaGL.h
+  During this phase, you need to inject your custom function into the workflow. The general approach includes:
+
+ Patching a JMP Instruction:
+- Redirect the original function (OG function) to your custom function.
+- If only one function calls the target, you can patch it directly.
+- If multiple functions call it, you’ll need a more dynamic approach, such as the method used in so_loader.
+ 
+ Dynamic Hooking Process:
+- Inside the target function, patch a JMP to your custom function.
+- Perform your desired operations in the patched function.
+
+If you want to execute the original function:
+- Temporarily "unpatch" the function by restoring its original bytes.
+- Execute the original function.
+- Re-patch the function after it executes.
+
+EXMPLES:
+Example that rinnegatamante explained: 
+Hooking with so_loader
+- Here’s how hooking is implemented in so_loader:
+```c
+h.addr = addr; // Address of the original function to hook.
+h.patch_instr[0] = 0xf000f8df; // LDR PC, [PC] - Load the address of the next instruction.
+h.patch_instr[1] = dst;        // The address of the custom function to redirect execution to.
+
+// Save the original instructions from the target address.
+kuKernelCpuUnrestrictedMemcpy(&h.orig_instr, (void *)addr, sizeof(h.orig_instr));
+
+// Overwrite the target address with the patch instructions (redirect to custom function).
+kuKernelCpuUnrestrictedMemcpy((void *)addr, h.patch_instr, sizeof(h.patch_instr));
+```
+
+The following macro, provided by Rinnegatamante in so_util.h, demonstrates how to temporarily unpatch, execute, and re-patch the original function:
+
+```c
+#define SO_CONTINUE(type, h, ...) ({ \
+    kuKernelCpuUnrestrictedMemcpy((void *)h.addr, h.orig_instr, sizeof(h.orig_instr)); \
+    /* Restore the original instructions to temporarily unpatch the function. */ \
+    kuKernelFlushCaches((void *)h.addr, sizeof(h.orig_instr)); \
+    /* Flush the cache to ensure the CPU sees the original instructions. */ \
+    type r = h.thumb_addr ? ((type(*)())h.thumb_addr)(__VA_ARGS__) : ((type(*)())h.addr)(__VA_ARGS__); \
+    /* Execute the original function (restored to its unpatched state). */ \
+    kuKernelCpuUnrestrictedMemcpy((void *)h.addr, h.patch_instr, sizeof(h.patch_instr)); \
+    /* Reapply the patch to hook the function again after execution. */ \
+    kuKernelFlushCaches((void *)h.addr, sizeof(h.patch_instr)); \
+    /* Flush the cache to ensure the CPU sees the updated patch instructions. */ \
+    r; /* Return the result of the original function call. */ \
+})
+```
+
 4) Understand how the so_loader works to be able to port games:
 
   PS Vita SO Loader: load and execute .so (shared object) files, which are typically not natively supported by the PS Vita. 
