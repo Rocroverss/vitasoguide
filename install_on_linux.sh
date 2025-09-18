@@ -439,6 +439,12 @@ install_zlib_vitasdk() {
     tar -xf "zlib-${ZLIB_VERSION}.tar.gz"
     cd "zlib-${ZLIB_VERSION}" || return 1
 
+    # Use vita tools for compilation
+    export CC=arm-vita-eabi-gcc
+    export AR=arm-vita-eabi-ar
+    export RANLIB=arm-vita-eabi-ranlib
+    export STRIP=arm-vita-eabi-strip
+
     # Build and install zlib for VitaSDK
     echo "Building and installing zlib for VitaSDK..."
     ./configure --prefix="$VITASDK_PREFIX"
