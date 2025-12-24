@@ -1,4 +1,6 @@
 #!/bin/bash
+export VITASDK=/usr/local/vitasdk
+export PATH=$VITASDK/bin:$PATH
 
 # Define helper function for logging errors
 log_error() {
